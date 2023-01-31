@@ -6,6 +6,7 @@ function App() {
     getAllUsers()
       .then((data) => {
         console.log(data);
+        console.log(data.results);
       })
       .catch((error) => {
         console.log(error);
