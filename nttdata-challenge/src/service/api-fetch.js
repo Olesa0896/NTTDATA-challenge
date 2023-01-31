@@ -1,7 +1,7 @@
 const BASE_URI = "https://randomuser.me/api/";
 
 export async function getAllUsers() {
-  let response = await fetch(BASE_URI + `?results=5`);
+  let response = await fetch(BASE_URI + `?results=15`);
 
   let data;
 
