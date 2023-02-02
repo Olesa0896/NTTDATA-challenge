@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Global } from '@emotion/react';
+// import { AuthProvider } from './context/auth-context'
 import { global, reset } from './styles'
 
 import App from './App';
@@ -10,7 +11,9 @@ root.render(
   <React.StrictMode>
     <Global styles={reset} />
     <Global styles={global} />
+    {/* <AuthProvider> */}
     <App />
+    {/* </AuthProvider> */}
   </React.StrictMode>
 );
 

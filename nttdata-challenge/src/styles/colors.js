@@ -80,7 +80,9 @@ export const colors = {
     500: "#0EA5E9",
   },
   blue: {
-    500: "#2D9CDB",
+    100: "#D5DDEE",
+    300: "#A9BFEA",
+    500: "#4471C9",
   },
 
   background: "#E5E5E5",
