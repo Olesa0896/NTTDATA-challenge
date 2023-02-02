@@ -1,7 +1,7 @@
 import { React, useEffect, useState, useMemo } from "react";
 import styled from "@emotion/styled";
-import { ImSortAmountDesc, ImSortAmountAsc, ImFilter } from "react-icons/im";
-import { GrFilter } from "react-icons/gr";
+import { ImSortAmountDesc, ImSortAmountAsc, ImFilter, ImDownload } from "react-icons/im";
+import csvDownload from 'json-to-csv-export';
 import { useSortBy, useTable } from "react-table";
 import { getAllUsers } from "../../service/api-fetch.js";
 import { colors } from "../../styles"
@@ -59,6 +59,21 @@ const Div = styled.div`
   align-items: center;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px
+`;
+
+const Link = styled.a`
+  border-radius: 4px;
+  background: ${colors.blue[500]};
+  color: ${colors.white};
+  text-align:center;
+  cursor: pointer;
+  max-width: 200px;
+`;
 
 export function Users() {
   const [users, setUsers] = useState([]);
@@ -105,6 +120,13 @@ export function Users() {
   const tableInstance = useTable({ columns, data: users }, useSortBy);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+  const dataToConvert = {
+    data: users,
+    filename: 'users_data',
+    delimiter: ',',
+    headers: ["name", "lastName", "age", "gender", "email", "nat", "picture"]
+  }
+
 
   useEffect(() => {
     getAllUsers()
@@ -121,7 +143,7 @@ export function Users() {
             "picture": user.picture
           };
           filterUsers.push(newObject);
-          setUsers(filterUsers)
+          return setUsers(filterUsers)
         })
       })
       .catch((error) => {
@@ -130,33 +152,37 @@ export function Users() {
   }, [])
 
   return (
-    <Table {...getTableProps()}>
-      <TableHead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render('Header')}
-                {column.isSorted ? (column.isSortedDesc ? <ImSortAmountDesc style={{ paddingTop: "2px" }} /> : <ImSortAmountAsc style={{ paddingTop: "2px" }} />) : <ImFilter style={{ width: "12px", height: "12px", marginTop: "4px", marginLeft: "4px" }} />}
-              </TableHeader>
-            ))}
-          </tr>
-        ))}
-      </TableHead>
-      <TableBody {...getTableBodyProps()}>
-        {rows.map((row, idx) => {
-          prepareRow(row);
-          return <TableRow id={idx} color={`${colors.blue[300]}`} {...row.getRowProps()}>
-            {row.cells.map((cell, idx) => (
-              <TableData {...cell.getCellProps()}>
-                {cell.render('Cell')}
-              </TableData>
-            ))}
-          </TableRow>
-        })}
+    <Wrapper>
+      <Link onClick={() => csvDownload(dataToConvert)}>Download CSV <ImDownload /> </Link>
 
-      </TableBody>
-    </Table>
+      <Table {...getTableProps()}>
+        <TableHead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  {column.isSorted ? (column.isSortedDesc ? <ImSortAmountDesc style={{ paddingTop: "2px" }} /> : <ImSortAmountAsc style={{ paddingTop: "2px" }} />) : <ImFilter style={{ width: "12px", height: "12px", marginTop: "4px", marginLeft: "4px" }} />}
+                </TableHeader>
+              ))}
+            </tr>
+          ))}
+        </TableHead>
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, idx) => {
+            prepareRow(row);
+            return <TableRow id={idx} color={`${colors.blue[300]}`} {...row.getRowProps()}>
+              {row.cells.map((cell, idx) => (
+                <TableData {...cell.getCellProps()}>
+                  {cell.render('Cell')}
+                </TableData>
+              ))}
+            </TableRow>
+          })}
+
+        </TableBody>
+      </Table>
+    </Wrapper>
   );
 
 }
