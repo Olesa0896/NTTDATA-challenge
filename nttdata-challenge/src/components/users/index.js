@@ -160,10 +160,16 @@ export function Users() {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  {column.isSorted ? (column.isSortedDesc ? <ImSortAmountDesc style={{ paddingTop: "2px" }} /> : <ImSortAmountAsc style={{ paddingTop: "2px" }} />) : <ImFilter style={{ width: "12px", height: "12px", marginTop: "4px", marginLeft: "4px" }} />}
-                </TableHeader>
+                column.Header === 'Edad' ?
+                  <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    {column.isSorted ? (column.isSortedDesc ? <ImSortAmountDesc style={{ paddingTop: "2px" }} /> : <ImSortAmountAsc style={{ paddingTop: "2px" }} />) : <ImFilter style={{ width: "12px", height: "12px", marginTop: "4px", marginLeft: "4px" }} />}
+                  </TableHeader>
+                  :
+                  <TableHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    {/* {column.isSorted ? (column.isSortedDesc ? <ImSortAmountDesc style={{ paddingTop: "2px" }} /> : <ImSortAmountAsc style={{ paddingTop: "2px" }} />) : <ImFilter style={{ width: "12px", height: "12px", marginTop: "4px", marginLeft: "4px" }} />} */}
+                  </TableHeader>
               ))}
             </tr>
           ))}
