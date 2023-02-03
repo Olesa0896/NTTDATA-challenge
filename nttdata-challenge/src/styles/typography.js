@@ -1,6 +1,6 @@
 export const fonts = {
   primary: `"Poppins", sans-serif`,
-
+  secondary: `"Roboto Slab", serif`,
 };
 
 export const typography = {
@@ -68,13 +68,14 @@ export const typography = {
       font-weight: 600;
     `,
     xl: `
-    font-size: 3rem;
-    line-height: 3rem;
+    font-size: 2.5rem;
+    line-height: 150%;
+    font-weight: 600;
     `,
 
     xxl: `
-    font-size: 2.5rem;
-    line-height: 150%;
+    font-size: 3rem;
+    line-height: 140%;
     font-weight: 600;
 
     `,
@@ -89,6 +90,6 @@ for (const size in typography.text) {
 
 for (const size in typography.head) {
   typography.head[size] += `
-  font-family: ${fonts.primary};
+  font-family: ${fonts.secondary};
   `;
 }
